@@ -12,4 +12,5 @@ if r.status_code == 200:
 		print(f"Evento: {e.get('name')}")
 		print(f"Fecha: {e.get('dates').get('start').get('localDate')}")
 		print(f"Ciudad: {e.get('_embedded').get('venues')[0].get('city').get('name')}")
+		print(f"ID: {e.get('id')}")
 		print()

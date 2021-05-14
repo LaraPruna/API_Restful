@@ -37,6 +37,7 @@ if opcion==1:
 				print(f"Evento: {e.get('name')}")
 				print(f"Fecha: {e.get('dates').get('start').get('localDate')}")
 				print(f"Tipo de evento: {e.get('_embedded').get('attractions')[0].get('classifications')[0].get('segment').get('name')}")
+				print(f"ID: {e.get('id')}")
 				print()
 
 elif opcion==2:
@@ -53,6 +54,7 @@ elif opcion==2:
 				print(f"Fecha: {e.get('dates').get('start').get('localDate')}")
 				print(f"Ciudad: {e.get('_embedded').get('venues')[0].get('city').get('name')}")
 				print(f"Tipo de evento: {e.get('_embedded').get('attractions')[0].get('classifications')[0].get('segment').get('name')}")
+				print(f"ID: {e.get('id')}")
 				print()
 
 elif opcion==3:
@@ -98,6 +100,7 @@ Opción: '''))
 				print(f"Evento: {e.get('name')}")
 				print(f"Fecha: {e.get('dates').get('start').get('localDate')}")
 				print(f"Ciudad: {e.get('_embedded').get('venues')[0].get('city').get('name')}")
+				print(f"ID: {e.get('id')}")
 				print()
 elif opcion==4:
 	atraccion=input("Introduce una clave (artista, grupo, equipo, ciudad, etc.): ")
@@ -113,6 +116,7 @@ elif opcion==4:
 				print(f"Fecha: {e.get('dates').get('start').get('localDate')}")
 				print(f"Ciudad: {e.get('_embedded').get('venues')[0].get('city').get('name')}")
 				print(f"Tipo de evento: {e.get('_embedded').get('attractions')[0].get('classifications')[0].get('segment').get('name')}")
+				print(f"ID: {e.get('id')}")
 				print()
 elif opcion==5:
 	fechainicio=input("Introduce la fecha de inicio con formato YYYY-MM-DD: ")
@@ -131,4 +135,5 @@ elif opcion==5:
 				print(f"Evento: {e.get('name')}")
 				print(f"Ciudad: {e.get('_embedded').get('venues')[0].get('city').get('name')}")
 				print(f"Tipo de evento: {e.get('_embedded').get('attractions')[0].get('classifications')[0].get('segment').get('name')}")
+				print(f"ID: {e.get('id')}")
 				print()
