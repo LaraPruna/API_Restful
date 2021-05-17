@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Buscador de eventos{% endblock %}
+{% block content %}
+{% if error %}
+    <p style='margin-left: 500px'><strong>No hay ningún evento registrado en nuestra base de datos.</strong></p>
+{% endif %}
+  
+{%endblock%}

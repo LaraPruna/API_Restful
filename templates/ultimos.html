@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Últimos eventos{% endblock %}
+{% block content %}
+<a class="navbar-brand" href="/buscador" title="">
+<img src="{{url_for('static', filename='assets/ticketmaster-logo_black.png')}}" width=550 style='margin-left: 400px' class="navbar-logo-img" alt="">
+</a>
+<div class="hero-full-container background-image-container white-text-container">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <b><p style="font-size: 50px">ÚLTIMOS EVENTOS EN ESPAÑA</p></b>
+            {% for dic in lista %}
+                <img src={{dic.imagen}} width=400px>
+                <br><br>
+              <ul style="color: white">
+                <li><b>Evento: {{dic.evento}}</b></li>
+                <li>Fecha: {{dic.fecha}}</li>
+                <li>Ciudad: {{dic.ciudad}}</li>
+                <li><a href="/detalles/{{dic.id}}">Más información</a></li>
+              </ul>
+              <br>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{%endblock%}

@@ -4,8 +4,9 @@ import requests
 import os
 URL_BASE="https://app.ticketmaster.com/discovery/v2/"
 key=os.environ["key"]
-payload={'apikey':key,'countryCode':'ES','size':50,'sort':'date,desc'}
+payload={'apikey':key,'countryCode':'ES','size':20,'sort':'date,desc'}
 r=requests.get(URL_BASE+'events.json',params=payload)
+print(r.status_code)
 if r.status_code == 200:
 	doc=r.json()
 	for e in doc.get("_embedded").get("events"):

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Buscador de eventos{% endblock %}
+{% block content %}
+  <div class="hero-full-container background-image-container white-text-container">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1>Buscador de eventos</h1>
+    <form action="/" method="post">
+        <p>Filtro de búsqueda:
+            {% if filtro=="ciudad" %}
+            <input type="radio" name="filtro" value="ciudad" checked> Ciudad
+            <input type="radio" name="filtro" value="pais" disabled> País
+            <input type="radio" name="filtro" value="tipo" disabled> Tipo de evento
+            <input type="radio" name="filtro" value="clave" disabled> Palabra clave
+            <input type="radio" name="filtro" value="fecha" disabled> Fecha
+        {% elif filtro=="pais" %}
+            <input type="radio" name="filtro" value="ciudad" disabled> Ciudad
+            <input type="radio" name="filtro" value="pais" checked> País
+            <input type="radio" name="filtro" value="tipo" disabled> Tipo de evento
+            <input type="radio" name="filtro" value="clave" disabled> Palabra clave
+            <input type="radio" name="filtro" value="fecha" disabled> Fecha
+        {% elif filtro=="tipo" %}
+            <input type="radio" name="filtro" value="ciudad" disabled> Ciudad
+            <input type="radio" name="filtro" value="pais" disabled> País
+            <input type="radio" name="filtro" value="tipo" checked> Tipo de evento
+            <input type="radio" name="filtro" value="clave"disabled> Palabra clave
+            <input type="radio" name="filtro" value="fecha" disabled> Fecha
+        {% elif filtro=="clave" %}
+            <input type="radio" name="filtro" value="ciudad" disabled> Ciudad
+            <input type="radio" name="filtro" value="pais" disabled> País
+            <input type="radio" name="filtro" value="tipo" disabled> Tipo de evento
+            <input type="radio" name="filtro" value="clave" checked> Palabra clave
+            <input type="radio" name="filtro" value="fecha" disabled> Fecha
+        {% elif filtro=="fecha" %}
+            <input type="radio" name="filtro" value="ciudad" disabled> Ciudad
+            <input type="radio" name="filtro" value="pais" disabled> País
+            <input type="radio" name="filtro" value="tipo" disabled> Tipo de evento
+            <input type="radio" name="filtro" value="clave" disabled> Palabra clave
+            <input type="radio" name="filtro" value="fecha" checked> Fecha
+        {% else %}
+            <input type="radio" name="filtro" value="ciudad"> Ciudad
+            <input type="radio" name="filtro" value="pais"> País
+            <input type="radio" name="filtro" value="tipo"> Tipo de evento
+            <input type="radio" name="filtro" value="clave"> Palabra clave
+            <input type="radio" name="filtro" value="fecha"> Fecha
+        {% endif %}
+        </p>
+        {% if filtro=="ciudad" %}
+            <input type="text" name="ciudad" value="{{ciudad}}"/>
+        {% elif filtro=="clave" %}
+            <input type="text" name="clave" value="{{clave}}"/>
+        {% elif filtro=="pais" %}
+            <select name="codigo">
+            {% for p in codpaises %}
+                {% if cod==p.pais %}
+                    <option selected value="{{p.pais}}">{{p.pais}}</option>
+                {% else %}
+                    <option value="{{p.pais}}">{{p.pais}}</option>
+                {% endif %}
+            {% endfor %}
+        {% elif filtro=="tipo" %}
+            <select name="tipo">
+            {% for t in tipos %}
+                {% if tip==t %}
+                    <option selected value="{{t}}">{{t}}</option>
+                {% else %}
+                    <option value="{{t}}">{{t}}</option>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        </select> 
+        <input type="submit" value="Enviar"/>
+    </form>
+    <br><br>
+    {% if filtro %}
+        <a href="/">Elegir otro filtro</a><br>
+    {% endif %}
+    <a href="/ultimos">Últimos eventos programados en España</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{%endblock%}
