@@ -75,7 +75,7 @@ elif opcion == 2:
 			print(f"Tipo de atracción: {atraccion.get('classifications')[0].get('segment').get('name')}")
 			print(f"Género: {atraccion.get('classifications')[0].get('genre').get('name')}")
 			if atraccion.get('externalLinks') != None:	
-				print(f"Redes sociales y sitios web:")
+				print(f"Enlaces externos:")
 				for sitio in atraccion.get('externalLinks'):
 					print(sitio.upper())
 					for enlace in atraccion.get('externalLinks').get(sitio):

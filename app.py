@@ -72,15 +72,28 @@ def lista_eventos():
 	else:
 		abort(404)
 
-@app.route("/detalles/<ident>")
-def detalles(ident)
+@app.route("/detalles/<ident>", methods=["GET","POST"])
+def detalles(ident):
 	payload={'apikey':key,'size':10}
 	r=requests.get(URL_BASE+'events/'+ident,params=payload)
 	if r.status_code == 200:
 		evento=r.json()
-		return render_template("listaeventos.html",evento=evento)
+		pag='events'
+		return render_template("detalles.html",evento=evento,pag=pag)
 	else:
-		abort(404)
+		r=requests.get(URL_BASE+'attractions/'+ident,params=payload)
+		if r.status_code == 200:
+			atraccion=r.json()
+			pag='attractions'
+			return render_template("detalles.html",atraccion=atraccion,pag=pag)
+		else:
+			r=requests.get(URL_BASE+'venues/'+ident,params=payload)
+			if r.status_code == 200:
+				lugar=r.json()
+				pag='venues'
+				return render_template("detalles.html",lugar=lugar,pag=pag)
+			else:
+				abort(404)
 
 
 port=os.environ["PORT"]

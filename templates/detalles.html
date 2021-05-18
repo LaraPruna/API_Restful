@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Buscador de eventos{% endblock %}
+{% block content %}
+<a class="navbar-brand" href="/" title="">
+<img src="{{url_for('static', filename='assets/ticketmaster-logo_black.png')}}" width=550 style='margin-left: 400px' class="navbar-logo-img" alt="Inicio">
+</a>
+  <div class="hero-full-container background-image-container white-text-container">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+        {% if pag == 'events' %}
+        <h1 style='text-align: center'>Detalles del evento</h1>
+        <a href="/">Volver al buscador</a><br><br>
+        <img src="{{evento.images[0].url}}" alt="{{evento.name}}" width=500px /><br><br>
+        <ul style="font-size: 20px; color: white; text-align: left">
+            <li><b>Evento</b>: {{evento.name}}</li><br>
+            <li><b>Fecha inicial</b>: {{evento.dates.start.localDate}}</li><br>
+            {% if evento._embedded %}
+            <li><b>Atracción</b>: <a href="/detalles/{{evento._embedded.attractions[0].id}}">{{evento._embedded.attractions[0].name}}</a></li><br>
+            <li><b>Ciudad</b>: {{evento._embedded.venues[0].city.name}} ({{evento._embedded.venues[0].country.name}})</li><br>
+            <li><b>Lugar del evento</b>: <a href="{{evento._embedded.venues[0].id}}">{{evento._embedded.venues[0].name}}</a> ({{evento._embedded.venues[0].address.line1}})</li><br>
+            {% endif %}
+            <li><b>Tipo de evento</b>: {{evento.classifications[0].segment.name}}</li><br>
+            <li><b>Género</b>: {{evento.classifications[0].genre.name}}</li><br>
+            {% if evento.priceRanges %}
+            <li><b>Precio mínimo</b>: {{evento.priceRanges[0].min}} {{evento.priceRanges[0].currency}}</li><br>
+            <li><b>Precio máximo</b>: {{evento.priceRanges[0].max}} {{evento.priceRanges[0].currency}}</li><br>
+            {% endif %}
+             <a href="{{evento.url}}"><button type="button" style="color: blue">Comprar ticket</button></a>
+
+        {% elif pag == 'attractions' %}
+            <h1 style='text-align: center'>Detalles de la atracción</h1>
+            <a href="/">Volver al buscador</a><br><br>
+            <img src="{{atraccion.images[0].url}}" alt="{{atraccion.name}}" width="500px" /><br><br>
+            <ul style="font-size: 20px; color: white; text-align: left">
+                <li><b>Atracción</b>: {{atraccion.name}}</li><br>
+                <li><b>Tipo de atracción</b>: {{atraccion.classifications[0].segment.name}} ({{atraccion.classifications[0].genre.name}})</li><br>
+                <li><b>Nº eventos registrados</b>: {{atraccion.upcomingEvents.ticketmaster}}</li><br>
+                <a href="{{atraccion.url}}"><button type="button" style="color: blue">Ver próximos eventos</button></a>
+            </ul>
+
+        {% else %}
+           <h1 style='text-align: center'>Detalles del lugar</h1>
+            <a href="/">Volver al buscador</a><br><br>
+            <ul style="font-size: 20px; color: white; text-align: left">
+                <li><b>Lugar</b>: {{lugar.name}}</li><br>
+                <li><b>Ciudad</b>: {{lugar.city.name}} ({{lugar.state.name}}, {{lugar.country.name}})</li><br>
+                <li><b>Dirección</b>: {{lugar.address.line1}}</li><br>
+                <li><b>Nº eventos registrados</b>: {{lugar.upcomingEvents._total}}</li><br>
+                <a href="{{lugar.url}}"><button type="button" style="color: blue">Ver próximos eventos</button></a>
+            </ul>
+
+        {% endif %}
+        </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+{%endblock%}
