@@ -11,35 +11,35 @@
           <h1>Buscador de eventos</h1>
     <form action="/" method="post">
         <p>Filtro de búsqueda:
-            {% if filtro=="ciudad" %}
+        {% if filtro=="ciudad" %}
             <input type="radio" name="filtro" value="ciudad" checked> Ciudad
-            <input type="radio" name="filtro" value="pais" disabled> País
-            <input type="radio" name="filtro" value="tipo" disabled> Tipo de evento
-            <input type="radio" name="filtro" value="clave" disabled> Palabra clave
-            <input type="radio" name="filtro" value="fecha" disabled> Fecha
+            <input type="radio" name="filtro" value="pais"> País
+            <input type="radio" name="filtro" value="tipo"> Tipo de evento
+            <input type="radio" name="filtro" value="clave"> Palabra clave
+            <input type="radio" name="filtro" value="fecha"> Fecha
         {% elif filtro=="pais" %}
-            <input type="radio" name="filtro" value="ciudad" disabled> Ciudad
+            <input type="radio" name="filtro" value="ciudad"> Ciudad
             <input type="radio" name="filtro" value="pais" checked> País
-            <input type="radio" name="filtro" value="tipo" disabled> Tipo de evento
-            <input type="radio" name="filtro" value="clave" disabled> Palabra clave
-            <input type="radio" name="filtro" value="fecha" disabled> Fecha
+            <input type="radio" name="filtro" value="tipo"> Tipo de evento
+            <input type="radio" name="filtro" value="clave"> Palabra clave
+            <input type="radio" name="filtro" value="fecha"> Fecha
         {% elif filtro=="tipo" %}
-            <input type="radio" name="filtro" value="ciudad" disabled> Ciudad
-            <input type="radio" name="filtro" value="pais" disabled> País
+            <input type="radio" name="filtro" value="ciudad"> Ciudad
+            <input type="radio" name="filtro" value="pais"> País
             <input type="radio" name="filtro" value="tipo" checked> Tipo de evento
-            <input type="radio" name="filtro" value="clave"disabled> Palabra clave
-            <input type="radio" name="filtro" value="fecha" disabled> Fecha
+            <input type="radio" name="filtro" value="clave"> Palabra clave
+            <input type="radio" name="filtro" value="fecha"> Fecha
         {% elif filtro=="clave" %}
-            <input type="radio" name="filtro" value="ciudad" disabled> Ciudad
-            <input type="radio" name="filtro" value="pais" disabled> País
-            <input type="radio" name="filtro" value="tipo" disabled> Tipo de evento
+            <input type="radio" name="filtro" value="ciudad"> Ciudad
+            <input type="radio" name="filtro" value="pais"> País
+            <input type="radio" name="filtro" value="tipo"> Tipo de evento
             <input type="radio" name="filtro" value="clave" checked> Palabra clave
-            <input type="radio" name="filtro" value="fecha" disabled> Fecha
+            <input type="radio" name="filtro" value="fecha"> Fecha
         {% elif filtro=="fecha" %}
-            <input type="radio" name="filtro" value="ciudad" disabled> Ciudad
-            <input type="radio" name="filtro" value="pais" disabled> País
-            <input type="radio" name="filtro" value="tipo" disabled> Tipo de evento
-            <input type="radio" name="filtro" value="clave" disabled> Palabra clave
+            <input type="radio" name="filtro" value="ciudad"> Ciudad
+            <input type="radio" name="filtro" value="pais"> País
+            <input type="radio" name="filtro" value="tipo"> Tipo de evento
+            <input type="radio" name="filtro" value="clave"> Palabra clave
             <input type="radio" name="filtro" value="fecha" checked> Fecha
         {% else %}
             <input type="radio" name="filtro" value="ciudad"> Ciudad
@@ -49,39 +49,44 @@
             <input type="radio" name="filtro" value="fecha"> Fecha
         {% endif %}
         </p>
+        <input type="submit" value="Enviar"/>
+    </form>
+    <br>
+    {% if filtro %}
+        <form action="/listaeventos" method="post">
         {% if filtro=="ciudad" %}
-            <input type="text" name="ciudad" value="{{ciudad}}"/>
+            <input type="text" name="ciudad" value="{{ciudad}}" required/>
         {% elif filtro=="clave" %}
-            <input type="text" name="clave" value="{{clave}}"/>
+            <input type="text" name="clave" value="{{clave}}" required/>
         {% elif filtro=="pais" %}
             <select name="codigo">
             {% for p in codpaises %}
                 {% if cod==p.pais %}
-                    <option selected value="{{p.pais}}">{{p.pais}}</option>
+                    <option selected value="{{p.codigo}}">{{p.pais}}</option>
                 {% else %}
-                    <option value="{{p.pais}}">{{p.pais}}</option>
+                    <option value="{{p.codigo}}" required>{{p.pais}}</option>
                 {% endif %}
             {% endfor %}
         {% elif filtro=="tipo" %}
             <select name="tipo">
             {% for t in tipos %}
                 {% if tip==t %}
-                    <option selected value="{{t}}">{{t}}</option>
+                    <option selected value="{{t.EN}}">{{t.ES}}</option>
                 {% else %}
-                    <option value="{{t}}">{{t}}</option>
+                    <option value="{{t.EN}}" required>{{t.ES}}</option>
                 {% endif %}
             {% endfor %}
         {% elif filtro=="fecha" %}
-            <p>Fecha inicial: <input type="date" name="fechainicio" value="{{fechainicio}}" style="color: gray">
-               Fecha final: <input type="date" name="fechafin" value="{{fechafin}}" style="color: gray">
+            <p>Fecha y hora inicial: <input type="text" name="fechainicio" value="{{fechainicio}}" placeholder="yyyy-mm-dd" style="color: gray" required>
+                <input type="time" name="horainicio" value="{{horainicio}}" style="color: gray" required><br><br>
+               Fecha y hora final: <input type="text" name="fechafin" value="{{fechafin}}" placeholder="yyyy-mm-dd" style="color: gray" required>
+               <input type="time" name="horafin" value="{{horafin}}" style="color: gray" required>
             </p>
         {% endif %}
         </select> 
         <input type="submit" value="Enviar"/>
     </form>
-    <br><br>
-    {% if filtro %}
-        <a href="/">Elegir otro filtro</a><br>
+    <br>
     {% endif %}
     <a href="/ultimos">Últimos eventos programados en España</a>
         </div>

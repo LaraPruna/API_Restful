@@ -1,8 +1,60 @@
 {% extends "base.html" %}
-{% block title %}Buscador de eventos{% endblock %}
+{% block title %}Lista de eventos{% endblock %}
 {% block content %}
-{% if error %}
-    <p style='margin-left: 500px'><strong>No hay ningún evento registrado en nuestra base de datos.</strong></p>
-{% endif %}
-  
+<a class="navbar-brand" href="/" title="">
+<img src="{{url_for('static', filename='assets/ticketmaster-logo_black.png')}}" width=550 style='margin-left: 400px' class="navbar-logo-img" alt="Inicio">
+</a>
+<div class="hero-full-container background-image-container white-text-container">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+        {% if not lista._embedded %}
+            <p style='text-align: center'><b>Lo sentimos. No tenemos ningún evento registrado con ese valor de filtro.</b></p><br>
+            <a href="/">Volver al buscador</a>
+        {% else %}
+        <p style="font-size: 40px"><b>LISTA DE EVENTOS</b></p>
+        <a href="/">Volver al buscador</a><br><br>
+            <table style="box-shadow: 0 0 20px rgba(0,0,0,0.1); margin: 0 auto;">
+    <thead>
+      <tr>
+        <th style="padding: 15px;
+  background-color: rgba(255,255,255,0.2);
+  color: #fff; text-align: center">Nombre</th>
+        <th style="padding: 15px;
+  background-color: rgba(255,255,255,0.2);
+  color: #fff; text-align: center">Ciudad</th>
+        <th style="padding: 15px;
+  background-color: rgba(255,255,255,0.2);
+  color: #fff; text-align: center">Fecha inicial</th>
+        <th style="padding: 15px;
+  background-color: rgba(255,255,255,0.2);
+  color: #fff; text-align: center">Detalles</th>
+      </tr>
+    </thead>
+    {% for e in lista._embedded.events %}
+    <tbody>
+       <tr>
+        <td style="padding: 15px;
+  background-color: rgba(255,255,255,0.2);
+  color: #fff;">{{e.name}}</td>
+        <td style="padding: 15px;
+  background-color: rgba(255,255,255,0.2);
+  color: #fff;">{% if e._embedded %}
+            {{e._embedded.venues[0].city.name}}
+                {% endif %}</td>
+        <td style="padding: 15px;
+  background-color: rgba(255,255,255,0.2);
+  color: #fff;">{{e.dates.start.localDate}}</td>
+        <td style="padding: 15px;
+  background-color: rgba(255,255,255,0.2);
+  color: #fff;"><a href=/detalles/{{e.id}}>Detalles</a></td>
+         <tr>
+    {% endfor %}
+      {% endif %}
+    </tbody>
+  </table>
+        </div>
+      </div>
+    </div>
+  </div>
 {%endblock%}

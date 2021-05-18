@@ -6,6 +6,8 @@ URL_BASE="https://app.ticketmaster.com/discovery/v2/"
 key=os.environ["key"]
 with open("./codpaises.json") as fichero:
 	codpaises=json.load(fichero)
+with open("./tipos.json") as fichero2:
+	tipos=json.load(fichero2)
 
 @app.route('/',methods=["GET","POST"])
 def buscador():
@@ -15,11 +17,9 @@ def buscador():
 		cod=request.form.get("codigo")
 		tip=request.form.get("tipo")
 		filtro=request.form.get("filtro")
-		payload={'apikey':key,'size':20}
-		tipos=["Deporte","Música","Arte y teatro","Cine","Variado","Indefinido"]
 		return render_template("buscador.html",filtro=filtro,codpaises=codpaises,tipos=tipos,cod=cod,tip=tip)
 
-@app.route('/ultimos')
+@app.route('/ultimos',methods=["GET","POST"])
 def ultimos():
 	payload={'apikey':key,'countryCode':'ES','size':10,'sort':'date,desc'}
 	r=requests.get(URL_BASE+'events.json',params=payload)
@@ -36,6 +36,51 @@ def ultimos():
 			dic['id']=e.get('id')
 			lista.append(dic)
 		return render_template("ultimos.html",lista=lista)
+
+@app.route('/listaeventos',methods=["POST"])
+def lista_eventos():
+	ciudad=request.form.get("ciudad")
+	pais=request.form.get("codigo")
+	clave=request.form.get("clave")
+	tipo=request.form.get("tipo")
+	fechainicio=request.form.get("fechainicio")
+
+	if ciudad:
+		payload={'apikey':key,'city':ciudad,'size':10,'sort':'date,desc'}
+
+	elif pais:
+		payload={'apikey':key,'countryCode':pais,'size':10,'sort':'date,desc'}
+
+	elif clave:
+		payload={'apikey':key,'keyword':clave,'size':10,'sort':'date,desc'}
+
+	elif tipo:
+		payload={'apikey':key,'classificationName':tipo,'size':10,'sort':'date,desc'}
+	else:
+		fechainicio=request.form.get("fechainicio")
+		horainicio=request.form.get("horainicio")
+		fechahorainicio=fechainicio+'T'+horainicio+':00Z'
+		fechafin=request.form.get("fechafin")
+		horafin=request.form.get("horafin")
+		fechahorafin=fechafin+'T'+horafin+':00Z'
+		payload={'apikey':key,'startDateTime':fechahorainicio,'endDateTime':fechahorafin,'size':10,'sort':'date,desc'}		
+
+	r=requests.get(URL_BASE+'events.json',params=payload)
+	if r.status_code == 200:
+		lista=r.json()
+		return render_template("listaeventos.html",lista=lista)
+	else:
+		abort(404)
+
+@app.route("/detalles/<ident>")
+def detalles(ident)
+	payload={'apikey':key,'size':10}
+	r=requests.get(URL_BASE+'events/'+ident,params=payload)
+	if r.status_code == 200:
+		evento=r.json()
+		return render_template("listaeventos.html",evento=evento)
+	else:
+		abort(404)
 
 
 port=os.environ["PORT"]
