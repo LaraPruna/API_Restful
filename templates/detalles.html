@@ -27,6 +27,9 @@
             <li><b>Precio máximo</b>: {{evento.priceRanges[0].max}} {{evento.priceRanges[0].currency}}</li><br>
             {% endif %}
              <a href="{{evento.url}}"><button type="button" style="color: blue">Comprar ticket</button></a>
+        </ul>
+        <h2>Localización en el mapa</h2>
+        <img src="{{loc}}" alt="Localización en el mapa" width="500px" height="400px">
 
         {% elif pag == 'attractions' %}
             <h1 style='text-align: center'>Detalles de la atracción</h1>
@@ -49,6 +52,8 @@
                 <li><b>Nº eventos registrados</b>: {{lugar.upcomingEvents._total}}</li><br>
                 <a href="{{lugar.url}}"><button type="button" style="color: blue">Ver próximos eventos</button></a>
             </ul>
+            <h2>Localización en el mapa</h2>
+            <img src="{{loc}}" alt="Localización en el mapa">
 
         {% endif %}
         </ul>

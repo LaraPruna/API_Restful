@@ -3,7 +3,9 @@ import os, requests, json
 
 app = Flask(__name__)
 URL_BASE="https://app.ticketmaster.com/discovery/v2/"
+URL_BASE2="https://dev.virtualearth.net/REST/v1/Imagery/Map/AerialWithLabels/"
 key=os.environ["key"]
+key2=os.environ["key2"]
 with open("./codpaises.json") as fichero:
 	codpaises=json.load(fichero)
 with open("./tipos.json") as fichero2:
@@ -75,11 +77,16 @@ def lista_eventos():
 @app.route("/detalles/<ident>", methods=["GET","POST"])
 def detalles(ident):
 	payload={'apikey':key,'size':10}
+	payload2={'key':key2,'zoomLevel':16}
 	r=requests.get(URL_BASE+'events/'+ident,params=payload)
 	if r.status_code == 200:
 		evento=r.json()
 		pag='events'
-		return render_template("detalles.html",evento=evento,pag=pag)
+		lon=evento.get('_embedded').get('venues')[0].get('location').get('longitude')
+		lat=evento.get('_embedded').get('venues')[0].get('location').get('latitude')
+		loc=requests.get(URL_BASE2+lat+','+lon,params=payload2)
+		loc2=loc.url
+		return render_template("detalles.html",evento=evento,pag=pag,loc=loc2)
 	else:
 		r=requests.get(URL_BASE+'attractions/'+ident,params=payload)
 		if r.status_code == 200:
@@ -91,7 +98,11 @@ def detalles(ident):
 			if r.status_code == 200:
 				lugar=r.json()
 				pag='venues'
-				return render_template("detalles.html",lugar=lugar,pag=pag)
+				lon=lugar.get('location').get('longitude')
+				lat=lugar.get('location').get('latitude')
+				loc=requests.get(URL_BASE2+lat+','+lon,params=payload2)
+				loc2=loc.url
+				return render_template("detalles.html",lugar=lugar,pag=pag,loc=loc2)
 			else:
 				abort(404)
 
