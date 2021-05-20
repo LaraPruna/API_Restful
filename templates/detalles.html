@@ -23,7 +23,7 @@
             <li><b>Tipo de evento</b>: {{evento.classifications[0].segment.name}}</li><br>
             <li><b>Género</b>: {{evento.classifications[0].genre.name}}</li><br>
             {% if evento.priceRanges %}
-            <li><b>Precio mínimo</b>: {{evento.priceRanges[0].min}} {{evento.priceRanges[0].currency}}</li><br>
+            <li><b>Precio mínimo</b>: {{evento.priceRanges[0].min}} {{evento.   priceRanges[0].currency}}</li><br>
             <li><b>Precio máximo</b>: {{evento.priceRanges[0].max}} {{evento.priceRanges[0].currency}}</li><br>
             {% endif %}
              <a href="{{evento.url}}"><button type="button" style="color: blue">Comprar ticket</button></a>
@@ -47,7 +47,7 @@
             <a href="/">Volver al buscador</a><br><br>
             <ul style="font-size: 20px; color: white; text-align: left">
                 <li><b>Lugar</b>: {{lugar.name}}</li><br>
-                <li><b>Ciudad</b>: {{lugar.city.name}} ({{lugar.state.name}}, {{lugar.country.name}})</li><br>
+                <li><b>Ciudad</b>: {{lugar.city.name}} ({{lugar.country.name}})</li><br>
                 <li><b>Dirección</b>: {{lugar.address.line1}}</li><br>
                 <li><b>Nº eventos registrados</b>: {{lugar.upcomingEvents._total}}</li><br>
                 <a href="{{lugar.url}}"><button type="button" style="color: blue">Ver próximos eventos</button></a>
